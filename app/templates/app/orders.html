@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Order Placed{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+ <h3>Welcome {{request.user}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
+    {% comment %} <li class="d-grid"><a href="{% url 'buy-now' product.id %}" class="btn btn-success">Pay Now</a></li> {% endcomment %}
+   </ul>
+  </div>
+  <div class="col-sm-9 offset-sm-1">
+      
+   <div class="row">
+    {% for order in orders %}
+      <hr>
+    <div class="col-sm-6 "><h4>Order {{forloop.counter}}</h4></div>
+    <p class="fw-bold">Product: {{order.product.brand}} {{order.product.title}}</p>
+    <p class="fw-bold">Quantity: {{order.quantity}}</p>
+    <p class="fw-bold">Ordered Date: {{order.orderd_date}}</p>
+    <p class="fw-bold">Price: {{order.total_cost}}</p>
+    <p class="fw-bold ">Order Status: <span class="text-warning">{{order.status}}</span></p>
+    <div class="col-sm-6  align-self-center">
+        <img src="{{order.product.product_image.url}}" alt="" class="img-fluid img-thumbnail mx-auto d-block">
+       </div>
+   </div>
+   
+   {% endfor %}
+   <a href="{{payment_url}}" class="btn btn-success mt-3 px-5 fw-bold">Confirm</a>
+
+  </div>
+  
+
+
+ </div>
+</div>
+{% endblock main-content %}

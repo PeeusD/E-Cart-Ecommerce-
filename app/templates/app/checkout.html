@@ -1,0 +1,76 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row mt-5">
+  <div class="col-sm-6">
+    <h4>Order Summary</h4>
+    <hr>
+
+    {% for item in cart_product %}
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Product: {{item.product.brand}} </h5>
+          <h6>Item: {{item.product.title}} </h6>
+          <p>Quantity: {{item.quantity}}</p>
+          <p class="fw-bold">Price: Rs. {{item.total_cost}}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <p class="fw-bold">Total + Shipping Charges (Rs.70) = Rs. {{totalamount}}</p>
+    <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
+  </div>
+  <div class="col-sm-4 offset-sm-1">
+    <h4>Select Shipping Address</h4>
+    <hr>
+
+      
+  
+
+      {% for customer in customer_details %}
+      <div class="card">
+        <div class="card-body">
+        <h5>{{customer.name}}</h5>
+        <p>{{customer.locality}}, {{customer.city}}, {{customer.state}}</p>
+        <p>Pin: {{customer.zipcode}}</p>
+        </div>
+      </div>
+        <div class="form-check mt-2 mb-5">
+          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{customer.id}}">
+          <label class="form-check-label fw-bold" for="">
+            Address: {{forloop.counter}} </label>
+        </div>
+        {% endfor %}
+        <div class="text-end">
+          <button type="button" id="pay-now" class="btn btn-success mt-3 px-5 fw-bold " data-bs-toggle="modal" data-bs-target="#confirmModal">Pay Now</button>
+        </div>
+   
+
+    
+
+      <!--Modal stats-->
+      <div class="modal fade" tabindex="-1" id="confirmModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Payment Confirmation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        
+            <div class="text-center">
+             
+              <img src=" {% static 'app/images/instamojo.png' %} " alt="" style="width:40%" class="img-fluid text-center">
+                   
+              <a href="" id="confirm-payment" class="btn btn-success"> Confirm</a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal ends-->
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
