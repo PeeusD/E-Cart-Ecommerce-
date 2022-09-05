@@ -183,9 +183,10 @@ class CheckoutView(View):
 @login_required
 def paymentSuccess(request):
     payment_req_id = request.GET.get('payment_request_id')
-    order_obj = OrderPlaced.objects.get(order_id=payment_req_id)
-    order_obj.is_paid=True
-    order_obj.save()
+    order_obj = OrderPlaced.objects.filter(order_id=payment_req_id)
+    for _ in order_obj:
+        _.is_paid=True
+        _.save()
     return render(request, 'app/payment_success.html')
 
 
@@ -236,7 +237,7 @@ class PaymentDoneView(View):
         customer = Customer.objects.get(id=custid)
         cart = Cart.objects.filter(user=usr)
         for c in cart:
-            orders = OrderPlaced(user=usr, customer=customer, product=c.product, 
+            orders, _ = OrderPlaced.objects.get_or_create(user=usr, customer=customer, product=c.product, 
                                     quantity=c.quantity, order_id=order_id,
                                      is_paid=False, status=prod_status)
             orders.save()

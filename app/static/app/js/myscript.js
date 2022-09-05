@@ -96,8 +96,10 @@ $('#pay-now').click(function(){
            custid:custid
         },
         success: function(data){
-            //modal script
+            
             $("#confirm-payment").attr("href", data.payment_url);
+
+            //modal script
             var myModal = document.getElementById('confirmModal')
             var myInput = document.getElementById('myInput')
             
