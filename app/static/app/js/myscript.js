@@ -46,19 +46,29 @@ $('.minus-cart').click(function(){
     let id = $(this).attr("pid").toString();
     let elm = this.parentNode.children[2]
     // console.log(elm)
-    $.ajax({
-        type:"GET",
-        url:"/quantity_cart",
-        data: {
-            prod_minus_id:id
-        },
-        success: function(data){
-            // console.log(data)
-            elm.innerText = data.quantity
-            document.getElementById("amount").innerText = data.amount
-            document.getElementById("totalamount").innerText = data.totalamount
-        }
-    })
+   // if (data.amount > 0) {
+        $.ajax({
+            type:"GET",
+            url:"/quantity_cart",
+            data: {
+                prod_minus_id:id
+            },
+            success: function(data){
+                // console.log(data)
+                elm.innerText = data.quantity
+                document.getElementById("amount").innerText = data.amount
+                if (data.amount > 0) {
+                    document.getElementById("totalamount").innerText = data.totalamount
+                } else {
+                    document.getElementById("totalamount").innerText=0
+                }
+            
+                
+            }
+        })
+  //  }
+
+    
 })
 
 
@@ -86,7 +96,7 @@ $('.remove-cart').click(function(){
 
 //paynow ajax request with passing custidvalue by checked radio button
 
-$('#pay-now').click(function(){
+$('#confirm-payment').click(function(){
     let custid = $('input[name="custid"]:checked').attr("value");
     // console.log(custid);
     $.ajax({
@@ -96,8 +106,10 @@ $('#pay-now').click(function(){
            custid:custid
         },
         success: function(data){
-            
-            $("#confirm-payment").attr("href", data.payment_url);
+
+            //redirecting to payment gateway
+            location.href = data.payment_url;
+           
 
             //modal script
             var myModal = document.getElementById('confirmModal')

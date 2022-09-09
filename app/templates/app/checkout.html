@@ -7,6 +7,7 @@
   <div class="col-sm-6">
     <h4>Order Summary</h4>
     <hr>
+   
 
     {% for item in cart_product %}
       <div class="card mb-2">
@@ -26,8 +27,6 @@
     <hr>
 
       
-  
-
       {% for customer in customer_details %}
       <div class="card">
         <div class="card-body">
@@ -43,8 +42,10 @@
         </div>
         {% endfor %}
         <div class="text-end">
-          <button type="button" id="pay-now" class="btn btn-success mt-3 px-5 fw-bold " data-bs-toggle="modal" data-bs-target="#confirmModal">Pay Now</button>
+          <button type="button" id="pay-now" class="btn btn-warning mt-3 px-5 fw-bold " data-bs-toggle="modal" data-bs-target="#confirmModal">Pay now</button> 
         </div>
+
+
    
 
     
@@ -62,7 +63,8 @@
              
               <img src=" {% static 'app/images/instamojo.png' %} " alt="" style="width:40%" class="img-fluid text-center">
                    <br>
-              <a href="" id="confirm-payment" class="btn btn-success"> Confirm</a>
+                   <button type="button" id="confirm-payment" class="btn btn-success my-3" >Confirm</button>
+             
 
             </div>
           </div>

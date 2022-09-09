@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import Customer, Product, Cart, OrderPlaced
@@ -14,12 +14,20 @@ load_dotenv()
 API_KEY = getenv('API_KEY')
 AUTH_TOKEN = getenv('AUTH_TOKEN')
 
+
+
 class ProductView(View):
     def get(self, request):
+ 
         topwears = Product.objects.filter(category='TW')
         bottomwears = Product.objects.filter(category='BW')
         mobiles = Product.objects.filter(category='M')
-        return render(request, 'app/home.html', {'topwears':topwears, 'bottomwears':bottomwears, 'mobiles':mobiles})
+        
+
+        return render(request, 'app/home.html', {'topwears':topwears,
+                                                'bottomwears':bottomwears,
+                                                'mobiles':mobiles, 
+                                                })
 
 
 class ProductDetailView(View):
@@ -29,11 +37,8 @@ class ProductDetailView(View):
         if request.user.is_authenticated:
             item_already_in_cart = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
         return render(request, 'app/productdetail.html', {'product':product, 
-                                                        'item_already_in_cart':item_already_in_cart
-                                                            })
+                                                        'item_already_in_cart':item_already_in_cart })
 
-# def add_to_cart(request):
-#  return render(request, 'app/addtocart.html')
 
 @method_decorator(login_required, name='dispatch')
 class AddtoCartView(View):
@@ -180,27 +185,7 @@ class CheckoutView(View):
                                                       })
 
 
-@login_required
-def paymentSuccess(request):
-    payment_req_id = request.GET.get('payment_request_id')
-    order_obj = OrderPlaced.objects.filter(order_id=payment_req_id)
-    for _ in order_obj:
-        _.is_paid=True
-        _.save()
-    return render(request, 'app/payment_success.html')
 
-
-# @login_required
-# def buy_now(request, product_id):
-#     # api = Instamojo(api_key=API_KEY, auth_token=AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/')
-#     try:
-#         usr = request.user
-
-#         product = Product.objects.get(id=product_id)
-#         order, _ = OrderPlaced.objects.get_or_create(product=product, user=usr, is_paid=False)
-#         return render(request, 'app/buynow.html')
-#     except Exception as e:
-#         print(e)
 
 
 api = Instamojo(api_key=API_KEY, auth_token=AUTH_TOKEN, endpoint='https://test.instamojo.com/api/1.1/')
@@ -232,8 +217,8 @@ class PaymentDoneView(View):
         order_id = response['payment_request']['id']
         prod_status = response['payment_request']['status']
         payment_url = response['payment_request']['longurl']
+        
         custid = request.GET.get('custid')
-    
         customer = Customer.objects.get(id=custid)
         cart = Cart.objects.filter(user=usr)
         for c in cart:
@@ -242,10 +227,21 @@ class PaymentDoneView(View):
                                      is_paid=False, status=prod_status)
             orders.save()
             # after order placing deleting the current cart
-            c.delete() 
-
+            c.delete()
         return JsonResponse({'payment_url':payment_url})
-        
+   
+
+
+@login_required
+def paymentSuccess(request):
+    payment_req_id = request.GET.get('payment_request_id')
+    order_obj = OrderPlaced.objects.filter(order_id=payment_req_id)
+    for _ in order_obj:
+        _.is_paid=True
+        _.save()
+    return render(request, 'app/payment_success.html')
+
+
 
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
