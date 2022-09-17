@@ -122,8 +122,26 @@ def remove_cart(request):
 @method_decorator(login_required, name='dispatch')
 class OrdersView(View):
     def get(self, request):
+        order_id = request.GET.get('order_id')
+        if order_id:
+            orders = OrderPlaced.objects.filter(user=request.user, order_id=order_id, is_paid=False)
+            for _ in orders:
+                _.delete()
+            return JsonResponse({'status':'deleted'})
         orders = OrderPlaced.objects.filter(user=request.user)
         return render(request, 'app/orders.html',{'orders':orders})
+
+
+
+def search_products(request):
+    searched_prods = request.GET.get('search_query')
+    all_products = Product.objects.filter(Q(brand__icontains=searched_prods) | Q(title__icontains=searched_prods) | Q(category__icontains=searched_prods))
+    if all_products:
+        return render(request, 'app/all_products.html', {'all_products':all_products})
+    else:
+        return render(request, 'app/all_products.html', {'no_product_exists':'No such product available!'})
+
+
 
 def mobile(request, data=None):
     if data == None:

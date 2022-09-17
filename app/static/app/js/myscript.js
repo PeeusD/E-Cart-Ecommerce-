@@ -75,7 +75,8 @@ $('.minus-cart').click(function(){
 $('.remove-cart').click(function(){
     let id = $(this).attr("pid").toString();
     let elm = this
-    // console.log(elm)
+   
+  
     $.ajax({
         type:"GET",
         url:"/remove_cart",
@@ -126,4 +127,48 @@ $('#confirm-payment').click(function(){
     })
  
       });
+
+
+$('.remove-cart').click(function(){
+    let id = $(this).attr("pid").toString();
+    let elm = this
+ 
+    $.ajax({
+        type:"GET",
+        url:"/remove_cart",
+        data: {
+            prod_remove_id:id
+        },
+        success: function(data){
+            // console.log(data)
+        
+            document.getElementById("amount").innerText = data.amount
+            document.getElementById("totalamount").innerText = data.totalamount
+            elm.parentNode.parentNode.parentNode.parentNode.remove()
+        }
+    })
+})
+
+
+
+$('.remove-order').click(function(){
+    let id = $(this).attr("oid").toString();
+    let elm = this
+  
+    $.ajax({
+        type:"GET",
+        url:"/orders/",
+        data: {
+            order_id:id
+        },
+        success: function(data){
+        
+          if (data.status =='deleted') {
+            elm.parentNode.parentNode.children[1].remove()
+            elm.parentNode.parentNode.children[1].remove()
+          }
+            
+        }
+    })
+})
 

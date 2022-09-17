@@ -3,40 +3,50 @@
 {% block title %}Order Placed{% endblock title %}
 {% block main-content %}
 <div class="container my-5">
- <div class="row">
- <h3>Welcome {{request.user}}</h3>
-  <div class="col-sm-2 border-end">
-   <ul class="list-unstyled">
-    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
-    {% comment %} <li class="d-grid"><a href="{% url 'buy-now' product.id %}" class="btn btn-success">Pay Now</a></li> {% endcomment %}
-   </ul>
-  </div>
-  <div class="col-sm-9 offset-sm-1">
-      
-   <div class="row">
-    {% for order in orders %}
-      <hr>
-    <div class="col-sm-6 "><h4>Order {{forloop.counter}}</h4></div>
+  <div class="row">
+    <h3>Welcome {{request.user}}</h3>
+    
+    <div class="col-sm-5 offset-sm-1">
+      {% for order in orders %}
+      <div class="row">
+       
+        <hr>
+        <div class="col-sm-6 ">
+          <h4>Order {{forloop.counter}}</h4>
+        </div>
 
-    <p class="fw-bold">Order ID: {{order.order_id}}</p>
-    <p class="fw-bold">Product: {{order.product.brand}} {{order.product.title}}</p>
-    <p class="fw-bold">Quantity: {{order.quantity}}</p>
-    <p class="fw-bold">Ordered Date: {{order.orderd_date}}</p>
-    <p class="fw-bold">Price: {{order.total_cost}}</p>
-    <p class="fw-bold ">Order Status: <span class="text-danger">{{order.status}}</span></p>
-    <p class="fw-bold ">Payment Status:  <span class="text-danger">{{order.is_paid}}</span></p>
-    <div class="col-sm-6  align-self-center">
+        <p class="fw-bold">Order ID: {{order.order_id}}</p>
+        <p class="fw-bold">Product: {{order.product.brand}} {{order.product.title}}</p>
+        <p class="fw-bold">Quantity: {{order.quantity}}</p>
+        <p class="fw-bold">Ordered Date: {{order.orderd_date}}</p>
+        <p class="fw-bold">Price: {{order.total_cost}}</p>
+        <p class="fw-bold ">Order Status: <span class="text-danger">{{order.status}}</span></p>
+
+        {% if order.is_paid %}
+        <p class="fw-bold ">Payment Status: <span class="text-success">Success</span></p>
+        {% else %}
+        <p class="fw-bold ">Payment Status: <span class="text-danger">Failed</span></p>
+       
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-4  ">
         <img src="{{order.product.product_image.url}}" alt="" class="img-fluid img-thumbnail mx-auto d-block">
-       </div>
-   </div>
-   
-   {% endfor %}
-  
+
+        {% if not order.is_paid %}
+        <a href="#" class="btn btn-sm btn-danger mr-3 remove-order" oid="{{order.order_id}}">Delete</a>
+        {% endif %}
+
+    </div>
+    
+
+    {% endfor %}
+
+
+
+
+
 
   </div>
-  
-
-
- </div>
 </div>
 {% endblock main-content %}
