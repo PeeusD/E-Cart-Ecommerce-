@@ -99,10 +99,13 @@ def adding_quantity(request):
 @login_required
 def remove_cart(request):
     if request.method =="GET":
-      
         prod_id = request.GET['prod_remove_id']
-        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
-        c.delete()
+        try:
+            c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+            c.delete()
+        except Cart.DoesNotExist:
+            c = None
+            
         amount = 0.0
         shipping_amount = 70.0
         cart_product = [p for p in Cart.objects.all() if p.user==request.user]
