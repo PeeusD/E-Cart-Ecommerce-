@@ -46,7 +46,7 @@ class AddtoCartView(View):
         user=request.user
         prod_id = request.GET.get("prod_id")
         product = Product.objects.get(id=prod_id)
-        Cart(user=user, product=product).save()
+        Cart.objects.get_or_create(user=user, product=product)  # saving products to cart
         return redirect('/cart')
 
 @method_decorator(login_required, name='dispatch')

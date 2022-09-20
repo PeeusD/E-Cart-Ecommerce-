@@ -13,7 +13,7 @@
    <p>{{product.description}}</p> <br>
    <h4>Rs. {{product.discounted_price}} <small class="fw-light text-decoration-line-through ">Rs. {{product.selling_price}}</small></h4> <br>
     
-   {% comment %} {% if request.user.is_autheticated %} {% endcomment %}
+  {% if request.user %}
    {% if item_already_in_cart %}
    <a href="{% url 'showcart' %}" class="btn btn-primary shadow px-5 py-2 ms-4">Go to Cart</a>
     {% else %}
@@ -22,14 +22,9 @@
     <button type="submit" class="btn btn-primary shadow px-5">Add to Cart</button>
     </form>
     {% endif %}
-    {% comment %} {% endif %} {% endcomment %}
+    {% endif %} 
 
-    {% comment %} {% if not request.user.is_authenticated %}
-    <form action="/add-to-cart" class="d-inline">
-        <input type="hidden" name="prod_id" value="{{product.id}}" id="prod_id">
-    <button type="submit" class="btn btn-primary shadow px-5">Add to Cart</button>
-    </form>
-    {% endif %} {% endcomment %}
+ 
 
    
    <a href="{% url 'checkout' %}" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</a>
