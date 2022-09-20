@@ -20,10 +20,15 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.AddressView.as_view(), name='address'),
     path('orders/', views.OrdersView.as_view(), name='orders'),
+
     path('mobile/', views.mobile, name='mobile'),
     path('mobile/<slug:data>', views.mobile, name='mobiledata'),
+
     path('bottomwear/', views.bottomwear, name='bottomwear'),
     path('bottomwear/<slug:data>', views.bottomwear, name='bottomweardata'),
+    
+    path('topwear/', views.topwear, name='topwear'),
+    path('topwear/<slug:data>', views.topwear, name='topweardata'),
     
     #Using django authentication with custom template
     path('accounts/login/', auth_views.LoginView.as_view(template_name='app/login.html', authentication_form=LoginForm), name='login'),

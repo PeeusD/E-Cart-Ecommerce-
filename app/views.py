@@ -171,6 +171,17 @@ def bottomwear(request, data=None):
     return render(request, 'app/bottomwear.html', {'bottomwears':bottomwears})
 
 
+def topwear(request, data=None):
+    if data == None:
+        topwears = Product.objects.filter(category='TW')
+    elif data =='Lee' or data =='Addidas' or data == 'Gucci' :
+        topwears = Product.objects.filter(category='TW').filter(brand__icontains=data)
+    elif data == 'below':
+        topwears = Product.objects.filter(category='TW').filter(discounted_price__lt=300)
+    elif data == 'above':
+        topwears = Product.objects.filter(category='TW').filter(discounted_price__gt=300)
+    
+    return render(request, 'app/topwear.html', {'topwears':topwears})
 
 
 class CustomerRegistrationView(View):

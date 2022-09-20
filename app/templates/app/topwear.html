@@ -1,37 +1,35 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Mobile{% endblock title %}
+{% block title %}Top Wear{% endblock title %}
 {% block main-content %}
 <div class="container my-5">
  <div class="row">
   <div class="col-sm-3">
   
     <div class="list-group ">
-        <a href=" {% url 'mobile' %} " class="list-group-item list-group-item-action" aria-current="true">
-          All Mobile
+        <a href=" {% url 'topwear' %} " class="list-group-item list-group-item-action" aria-current="true">
+          All Top Wear
         </a>
-        <a href="{% url 'mobiledata' 'Oppo' %}" class="list-group-item list-group-item-action">Oppo</a>
-        <a href="{% url 'mobiledata' 'Vivo' %}" class="list-group-item list-group-item-action">Vivo</a>
-        <a href="{% url 'mobiledata' 'Samsung' %}" class="list-group-item list-group-item-action">Samsung</a>
-        <a href="{% url 'mobiledata' 'MI' %}" class="list-group-item list-group-item-action">MI</a>
-        <a href="{% url 'mobiledata' 'below' %}" class="list-group-item list-group-item-action">Below 20000</a>
-        <a href="{% url 'mobiledata' 'above' %}" class="list-group-item list-group-item-action">Above 20000</a>
+        <a href="{% url 'topweardata' 'Lee' %}" class="list-group-item list-group-item-action">Lee</a>
+        <a href="{% url 'topweardata' 'Gucci' %}" class="list-group-item list-group-item-action">Gucci</a>
+        <a href="{% url 'topweardata' 'Addidas' %}" class="list-group-item list-group-item-action">Addidas</a>
+        <a href="{% url 'topweardata' 'below' %}" class="list-group-item list-group-item-action">Below 300</a>
+        <a href="{% url 'topweardata' 'above' %}" class="list-group-item list-group-item-action">Above 300</a>
       
     </div>
-
 
   </div>
 
   <div class="col-sm-8 offset-sm-1">
    <div class="row">
-    {% for m in mobiles %}
+    {% for t in topwears %}
     <div class="col-sm-4 text-center mb-4">
-        <a href="{% url 'product-detail' m.id %}" class="btn">
+        <a href="{% url 'product-detail' t.id %}" class="btn">
             <div class="item">
-                <img src="{{m.product_image.url}}" alt="" height="300" class ="">
-                <div class="fw-bold">{{m.brand}} {{m.title}}</div>
-                <div class="fw-bold">Rs.{{m.discounted_price}}
-                <small class="fw-light text-decoration-line-through"> Rs.{{m.selling_price}}</small>
+                <img src="{{t.product_image.url}}" alt="" height="300" class ="">
+                <div class="fw-bold">{{t.brand}} {{t.title}}</div>
+                <div class="fw-bold">Rs.{{t.discounted_price}}
+                <small class="fw-light text-decoration-line-through"> Rs.{{t.selling_price}}</small>
             </div>
             </div>
         </a>

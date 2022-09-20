@@ -22,7 +22,7 @@
     <title>E-Cart | {% block title %} {% endblock title %} </title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-danger">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-danger shadow">
      <div class="container">
       <img src="{% static 'app/images/cart_logo.png' %}" height="40px"> 
        <a class="navbar-brand" href="/">E-Cart</a>
@@ -48,7 +48,7 @@
                Fashion
              </a>
              <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
-               <li><a class="dropdown-item" href="#">Top Wear</a></li>
+               <li><a class="dropdown-item" href="{% url 'topwear' %}">Top Wear</a></li>
                <li><a class="dropdown-item" href="{% url 'bottomwear' %}">Bottom Wear</a></li>
              </ul>
            </li>
