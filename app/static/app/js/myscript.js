@@ -128,6 +128,15 @@ $('#confirm-payment').click(function(){
  
       });
 
+//enable paynow button when radio button clicked
+$('.form-check-input').click(function(){
+        $("#pay-now").removeClass("disabled");
+        
+    });
+
+
+
+
 
 $('.remove-cart').click(function(){
     let id = $(this).attr("pid").toString();
